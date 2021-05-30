@@ -23,6 +23,16 @@ pipeline {
                sh '/var/jenkins_home/workspace/spring-data-batch/gradlew clean build'
            }
        }
+       stage('SonarQube analysis') {
+           withSonarQubeEnv('MySonarQube') {
+             sh '/var/jenkins_home/workspace/spring-data-batch/gradlew sonarqube'
+           }
+       }
+       stage('Quality Gate') {
+            timeout(time: 1, unit: 'HOURS') {
+                waitForQualityGate abortPipeline: true
+            }
+       }
     }
     post {
         success {
