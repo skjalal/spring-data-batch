@@ -13,7 +13,7 @@ pipeline {
                script{
                     env.GIT_COMMIT = sh(returnStdout: true, script: "git log -n 1 --pretty=format:'%h'").trim()
                }
-               githubNotify account: 'skjalal', context: 'continuous-integration/jenkins', sha: "${GIT_COMMIT}", repo: 'spring-data-batch', status: 'PENDING'
+               githubNotify account: 'skjalal', context: 'continuous-integration/jenkins', sha: "${GIT_COMMIT}", repo: 'spring-data-batch', status: 'PENDING', description: ''
                sh 'chmod +x /var/jenkins_home/workspace/spring-data-batch/gradlew'
            }
        }
@@ -27,11 +27,11 @@ pipeline {
     post {
         success {
             echo 'Build Succeeded'
-            githubNotify account: 'skjalal', context: 'continuous-integration/jenkins', sha: "${GIT_COMMIT}", repo: 'spring-data-batch', status: 'SUCCESS'
+            githubNotify account: 'skjalal', context: 'continuous-integration/jenkins', sha: "${GIT_COMMIT}", repo: 'spring-data-batch', status: 'SUCCESS', description: ''
         }
         failure {
             echo 'Build was Failed'
-            githubNotify account: 'skjalal', context: 'continuous-integration/jenkins', sha: "${GIT_COMMIT}", repo: 'spring-data-batch', status: 'FAILURE'
+            githubNotify account: 'skjalal', context: 'continuous-integration/jenkins', sha: "${GIT_COMMIT}", repo: 'spring-data-batch', status: 'FAILURE', description: ''
         }
     }
  }
