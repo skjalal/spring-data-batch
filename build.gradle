@@ -10,7 +10,7 @@ plugins {
 }
 
 group 'com.example'
-description 'This is Spring Data Batch Implementation'
+description 'This is Spring Data Batch Processing'
 sourceCompatibility = '1.8'
 
 task setVersion {
