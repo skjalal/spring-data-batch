@@ -1,0 +1,70 @@
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+plugins {
+    id 'org.springframework.boot' version '2.5.0'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+    id 'jacoco'
+    id 'org.sonarqube' version '3.2.0'
+}
+
+group 'com.example'
+description 'This is Spring Data Batch Implementation'
+sourceCompatibility = '11'
+
+task setVersion {
+    def now = LocalDateTime.now()
+    def pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'hh:mm")
+    version = now.format(pattern).replaceAll('[-:]', '') + '-SNAPSHOT'
+}
+
+configurations {
+    compile.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    compile.exclude group: 'junit', module: 'junit'
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-batch'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.h2database:h2'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.batch:spring-batch-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+sonarqube {
+    properties {
+        property 'sonar.projectKey', 'com.example:spring-data-batch'
+        property 'sonar.projectName', 'SpringDataBatch'
+        property 'sonar.host.url', 'http://127.0.0.1:9000/'
+        property 'sonar.sourceEncoding', 'UTF-8'
+        property 'sonar.core.codeCoveragePlugin', 'jacoco'
+        property 'sonar.coverage.jacoco.xmlReportPaths', 'build/reports/jacoco/test/jacocoTestReport.xml'
+        property 'sonar.exclusions', '**/SpringDataBatchApplication.java'
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        csv.enabled false
+        html.enabled false
+    }
+}
+test.finalizedBy jacocoTestReport
