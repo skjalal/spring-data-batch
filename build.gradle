@@ -11,7 +11,7 @@ plugins {
 
 group 'com.example'
 description 'This is Spring Data Batch Implementation'
-sourceCompatibility = '11'
+sourceCompatibility = '1.8'
 
 task setVersion {
     def now = LocalDateTime.now()
@@ -19,9 +19,12 @@ task setVersion {
     version = now.format(pattern).replaceAll('[-:]', '') + '-SNAPSHOT'
 }
 
+configurations.all {
+    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    exclude group: 'junit', module: 'junit'
+}
+
 configurations {
-    compile.exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-    compile.exclude group: 'junit', module: 'junit'
     compileOnly {
         extendsFrom annotationProcessor
     }

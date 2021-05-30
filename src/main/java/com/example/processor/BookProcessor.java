@@ -14,7 +14,7 @@ public class BookProcessor implements ItemProcessor<BookModel, Book> {
 
   @Override
   public Book process(BookModel item) {
-    var book = new Book();
+    Book book = new Book();
     book.setBookId(Long.parseLong(item.getBookId()));
     book.setTitle(item.getTitle());
     book.setAuthors(item.getAuthors());
