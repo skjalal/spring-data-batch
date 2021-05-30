@@ -47,5 +47,11 @@ pipeline {
             echo 'Build was Failed'
             githubNotify account: 'skjalal', context: 'continuous-integration/jenkins', credentialsId: 'GIT', description: 'Build Completed with Errors', sha: "${GIT_COMMIT}", repo: 'spring-data-batch', status: 'FAILURE'
         }
+        aborted {
+            githubNotify account: 'skjalal', context: 'continuous-integration/jenkins', credentialsId: 'GIT', description: 'Build Completed with Errors', sha: "${GIT_COMMIT}", repo: 'spring-data-batch', status: 'FAILURE'
+        }
+        unstable {
+            githubNotify account: 'skjalal', context: 'continuous-integration/jenkins', credentialsId: 'GIT', description: 'Build Completed with Errors', sha: "${GIT_COMMIT}", repo: 'spring-data-batch', status: 'FAILURE'
+        }
     }
  }
